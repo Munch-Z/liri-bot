@@ -3,6 +3,7 @@ const Spotify = require('node-spotify-api');
 const keys = require("./keys.js");
 const axios = require('axios');
 const moment = require('moment');
+const fs = require('fs');
 const args = process.argv.slice(2);
 
 const op = args[0];
@@ -64,17 +65,38 @@ function searchBand(query) {
     })
 }
 
-switch (op) {
-    case 'spotify-this-song':
-        searchSpotify(userInput);
-        break;
-    case 'movie-this':
-        searchOMDB(userInput);
-        break;
-    case 'concert-this':
-        searchBand(userInput);
-        break;
-    default:
-        console.log('INVALID INPUT');
-        break;
+function doWhatItSays() {
+
+    fs.readFile('random.txt', 'utf8', (err, data) => {
+        if (err) return console.log(err);
+
+        let arr = data.split(', ');
+        
+        processArg(arr[0], arr[1]);
+    })
 }
+
+
+
+function processArg(op, userInput) {
+    switch (op) {
+        case 'spotify-this-song':
+            searchSpotify(userInput);
+            break;
+        case 'movie-this':
+            searchOMDB(userInput);
+            break;
+        case 'concert-this':
+            searchBand(userInput);
+            break;
+        case 'do-what-it-says':
+            doWhatItSays();
+            break;
+        default:
+            console.log('INVALID INPUT');
+            break;
+    }
+}
+
+processArg(op, userInput);
+
