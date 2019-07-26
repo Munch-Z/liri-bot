@@ -46,12 +46,33 @@ function searchOMDB(query) {
     })
 }
 
+function searchBand(query) {
+
+    axios.get(`https://rest.bandsintown.com/artists/${query}/events?app_id=codingbootcamp`).then((data) => {
+
+    let bandInfo = data.data[0];
+    let time = bandInfo.datetime;
+    let momentTime = moment(time);
+
+    console.log(bandInfo.venue.name); //Venue Name
+    console.log(bandInfo.venue.country, bandInfo.venue.city); //Venue Location
+    console.log(momentTime.format("dddd, MMMM Do YYYY, h:mm:ss a")); //Date of the event
+    
+
+    }).catch((error) => {
+        console.log(error);
+    })
+}
+
 switch (op) {
     case 'spotify-this-song':
         searchSpotify(userInput);
         break;
     case 'movie-this':
         searchOMDB(userInput);
+        break;
+    case 'concert-this':
+        searchBand(userInput);
         break;
     default:
         console.log('INVALID INPUT');
