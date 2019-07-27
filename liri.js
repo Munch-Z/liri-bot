@@ -25,6 +25,12 @@ function searchSpotify(query) {
         console.log(importantInfo.album.name); //Album
         console.log(importantInfo.preview_url); //Preview
         console.log(importantInfo.name);  //Name of song
+
+        fs.appendFile('log.txt', `${importantInfo.artists[0].name}, ${importantInfo.album.name}, ${importantInfo.preview_url}, ${importantInfo.name} \r\n`, (err) => {
+            if(err) return console.log(err);
+        
+            console.log('The data was appended!');
+        })
     });
 }
 
@@ -41,6 +47,12 @@ function searchOMDB(query) {
         console.log(movie.Language); //Language
         console.log(movie.Plot); //Plot
         console.log(movie.Actors); //Actors
+
+        fs.appendFile('log.txt', `${movie.Title}, ${movie.Year}, ${movie.imdbRating}, ${movie.Ratings[1].Value},  ${movie.Country}, ${movie.Language}, ${movie.Plot}, ${movie.Actors} \r\n`, (err) => {
+            if(err) return console.log(err);
+        
+            console.log('The data was appended!');
+        })
 
     }).catch((error) => {
         console.log(error);
@@ -59,6 +71,11 @@ function searchBand(query) {
     console.log(bandInfo.venue.country, bandInfo.venue.city); //Venue Location
     console.log(momentTime.format("dddd, MMMM Do YYYY, h:mm:ss a")); //Date of the event
     
+    fs.appendFile('log.txt', `${bandInfo.venue.name}, ${bandInfo.venue.country, bandInfo.venue.city}, ${momentTime.format("dddd, MMMM Do YYYY, h:mm:ss a")} \r\n`, (err) => {
+        if(err) return console.log(err);
+    
+        console.log('The data was appended!');
+    })
 
     }).catch((error) => {
         console.log(error);
@@ -75,7 +92,6 @@ function doWhatItSays() {
         processArg(arr[0], arr[1]);
     })
 }
-
 
 
 function processArg(op, userInput) {
